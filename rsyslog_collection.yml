@@ -1,0 +1,44 @@
+---
+- name: Configure Log Forwarding
+  hosts: network_devices  # Replace with your target host group or hosts from your Ansible inventory
+  become: yes  # Run tasks with sudo privileges if required
+
+  tasks:
+    - name: Install rsyslog package
+      apt:
+        name: rsyslog  # Adjust for your distribution (e.g., yum for Red Hat-based systems)
+      when: ansible_os_family == 'Debian'  # Adjust for your OS family
+
+    - name: Configure rsyslog to forward logs
+      template:
+        src: templates/rsyslog.conf.j2  # Path to your rsyslog configuration template
+        dest: /etc/rsyslog.conf
+      notify:
+        - Restart rsyslog
+      when: ansible_os_family == 'Debian'  # Adjust for your OS family
+
+    - name: Ensure rsyslog service is started
+      service:
+        name: rsyslog
+        state: started
+      when: ansible_os_family == 'Debian'  # Adjust for your OS family
+
+  handlers:
+    - name: Restart rsyslog
+      service:
+        name: rsyslog
+        state: restarted
+
+- name: Send Logs to Centralized Log Server
+  hosts: central_log_server  # Replace with your central log server's hostname or IP
+  become: yes  # Run tasks with sudo privileges if required
+
+  tasks:
+    - name: Install log management software (e.g., Logstash, Elasticsearch, Kibana)
+      # Add tasks to install and configure your log management solution on the central server.
+
+    - name: Configure log receiver
+      # Add tasks to configure the log management solution to listen for incoming logs.
+
+    - name: Ensure log management service is started
+      # Add tasks to start the log management service.
