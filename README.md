@@ -11,11 +11,11 @@ These playbooks can help streamline network operations, improve efficiency, and 
 
 4. **Network Inventory**: Create an inventory playbook to regularly update and maintain an inventory of network devices, their configurations, and software versions.
 
-5. **Network Monitoring**: Set up monitoring configurations to ensure the availability and performance of network devices using tools like SNMP.
+5. **Network Monitoring**: Set up monitoring configurations to ensure the availability and performance of network devices using tools like SNMP. DONE
 
 6. **Backup and Restore**: Automate regular backups of router and switch configurations and create playbooks for restoring configurations in case of failures.
 
-7. **Software Updates**: Automate the distribution and installation of software updates and patches for network devices.
+7. **Software Updates**: Automate the distribution and installation of software updates and patches for network devices. DONE
 
 8. **User Account Management**: Manage user accounts and permissions on networking equipment to ensure security and access control.
 
@@ -33,7 +33,7 @@ These playbooks can help streamline network operations, improve efficiency, and 
 
 15. **Network Documentation**: Generate network documentation playbooks that extract configuration information and create up-to-date network diagrams.
 
-16. Playbook for update/upgrade (apt/yum) of all selected hosts (DONE).
+16. ** update/upgrade (apt/yum) **:  of all selected hosts (DONE).
 
 These playbooks can help streamline network operations, improve efficiency, and enhance the security and reliability of telecommunications enterprise networks. Remember to customize each playbook to fit your specific network infrastructure and requirements.
 
