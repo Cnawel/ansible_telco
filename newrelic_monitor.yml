@@ -1,0 +1,21 @@
+# https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/config-management-tools/configure-infrastructure-agent-using-ansible/
+
+# server side:
+# ansible-galaxy install newrelic.newrelic_install
+# ansible-galaxy collection install ansible.windows ansible.utils
+
+---
+- name: Install New Relic
+  hosts: all
+  roles:
+    - role: newrelic.newrelic_install
+      vars:
+        targets:
+          - infrastructure
+          - logs
+        tags:
+          foo: bar
+  environment:
+    NEW_RELIC_API_KEY: <API key>
+    NEW_RELIC_ACCOUNT_ID: <Account ID>
+    NEW_RELIC_REGION: <Region>
