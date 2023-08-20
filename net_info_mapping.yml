@@ -1,0 +1,44 @@
+# Using graphviz for mapping
+# https://gitlab.com/graphviz/graphviz/
+
+---
+- name: Extract Configuration and Generate Network Diagram
+  hosts: network_devices  # Replace with your target host group or hosts from your Ansible inventory
+  gather_facts: no  # Disable gathering facts for faster execution
+
+  tasks:
+    - name: Install Graphviz
+      # Add tasks to install Graphviz on the system where the diagram will be generated.
+      # The package name may vary depending on your operating system (e.g., 'graphviz' on Debian/Ubuntu, 'graphviz' on CentOS).
+
+    - name: Gather Configuration Information
+      # Add tasks to extract configuration data from network devices.
+      # Use modules like 'ios_command' for Cisco devices or 'raw' for custom commands.
+      # Store the configuration data in a variable for later use.
+
+    - name: Generate Network Diagram
+      # Create a network diagram based on the configuration data.
+      # You'll need to develop a custom script or use a tool that can parse the configuration data and generate a diagram in a format that Graphviz can process.
+      # Save the diagram as 'network_diagram.dot'.
+
+    - name: Convert Network Diagram to PNG
+      shell: dot -Tpng -o network_diagram.png network_diagram.dot
+      args:
+        chdir: /path/to/network/diagram/folder  # Replace with the actual path
+      notify:
+        - Notify about Diagram Completion
+
+  handlers:
+    - name: Notify about Diagram Completion
+      debug:
+        msg: "Network diagram has been generated."
+
+- name: Transfer Network Diagram
+  hosts: management_server  # Replace with the host where you want to store the network diagram
+  gather_facts: no
+
+  tasks:
+    - name: Transfer Diagram File
+      copy:
+        src: /path/to/network/diagram/folder/network_diagram.png  # Replace with the actual path
+        dest: /destination/path/network_diagram.png  # Replace with the destination path
