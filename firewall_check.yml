@@ -1,16 +1,13 @@
-'''
-Explanation and Comments:
+#Explanation and Comments:
 
-1. The playbook is named "Manage Firewall Rules" and specifies the target host or group where firewall rules will be configured.
-2. `gather_facts: no` disables the collection of facts for this task, as it's not necessary for configuring firewall rules.
-3. The "Configure Firewall Rules" task runs with elevated privileges (`become: yes`) to allow for the configuration of firewall rules.
-4. The `blockinfile` module is used to manage firewall rules. It adds or updates rules in a structured way in the specified configuration file (`/etc/firewall/rules.conf`). The `marker` defines a comment pattern that identifies Ansible-managed blocks.
-5. Inside the `blockinfile` module, example firewall rules are provided. These rules allow incoming SSH, HTTP, and HTTPS traffic and outgoing DNS and NTP requests. Adjust these rules according to your organization's needs.
-6. The `loop` section defines a list of firewall rules, each with a name for better organization and management. These names are used as identifiers.
-7. The "Ensure Firewall Service is Reloaded" task reloads the firewall service to apply the changes. You should replace the `command` module with the appropriate command for reloading firewall rules on your specific device.
-Make sure to adapt this playbook to your actual firewall device and rule configuration file. Always test firewall rule changes in a non-production environment before applying them in production.
-'''
-
+# 1. The playbook is named "Manage Firewall Rules" and specifies the target host or group where firewall rules will be configured.
+# 2. `gather_facts: no` disables the collection of facts for this task, as it's not necessary for configuring firewall rules.
+# 3. The "Configure Firewall Rules" task runs with elevated privileges (`become: yes`) to allow for the configuration of firewall rules.
+# 4. The `blockinfile` module is used to manage firewall rules. It adds or updates rules in a structured way in the specified configuration file (`/etc/firewall/rules.conf`). The `marker` defines a comment pattern that identifies Ansible-managed blocks.
+# 5. Inside the `blockinfile` module, example firewall rules are provided. These rules allow incoming SSH, HTTP, and HTTPS traffic and outgoing DNS and NTP requests. Adjust these rules according to your organization's needs.
+# 6. The `loop` section defines a list of firewall rules, each with a name for better organization and management. These names are used as identifiers.
+# 7. The "Ensure Firewall Service is Reloaded" task reloads the firewall service to apply the changes. You should replace the `command` module with the appropriate command for reloading firewall rules on your specific device.
+# Make sure to adapt this playbook to your actual firewall device and rule configuration file. Always test firewall rule changes in a non-production environment before applying them in production.
 
 - name: Manage Firewall Rules
   hosts: firewall_device  # Replace with the target firewall host or group from your inventory
