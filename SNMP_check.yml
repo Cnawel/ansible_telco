@@ -1,0 +1,39 @@
+Note: Please replace placeholders such as your_device_group, your_snmp_community, and your_snmp_server with actual values.
+
+---
+- name: Configure SNMP on Network Devices
+  hosts: your_device_group  # Replace with your target device group or hosts
+  gather_facts: no  # Disable fact gathering for this task
+
+  vars:
+    snmp_community: your_snmp_community  # Replace with your SNMP community string
+    snmp_server: your_snmp_server  # Replace with your SNMP monitoring server IP
+
+  tasks:
+    - name: Install SNMP packages for Debian/Ubuntu
+      become: yes
+      apt:
+        name: ['snmp', 'snmpd', 'snmp-mibs-downloader']
+      when: ansible_distribution in ['Debian', 'Ubuntu']
+
+    - name: Install SNMP packages for Red Hat/CentOS
+      become: yes
+      yum:
+        name: ['net-snmp', 'net-snmp-utils']
+      when: ansible_distribution in ['RedHat', 'CentOS']
+
+    - name: Configure SNMP Community for Debian/Ubuntu
+      become: yes
+      lineinfile:
+        path: /etc/snmp/snmpd.conf
+        line: "rocommunity {{ snmp_community }} {{ snmp_server }}"
+      when: ansible_distribution in ['Debian', 'Ubuntu', 'RedHat', 'CentOS']
+      notify:
+        - Restart SNMP
+
+    - name: Restart SNMP for Debian/Ubuntu/Red Hat/CentOS
+      become: yes
+      service:
+        name: snmpd
+        state: restarted
+      when: ansible_distribution in ['Debian', 'Ubuntu', 'RedHat', 'CentOS']

@@ -1,0 +1,40 @@
+# Collect Serial Number and Hardware Info from Routers
+# Author: Cnawel
+# Update: 8-23
+
+---
+- name: Collect Serial Number and Hardware Info from Routers
+  hosts: routers_A  # Replace with the name of your host group or host list from your inventory file
+
+  tasks:
+    - name: Run commands to collect information on each router
+      become: yes  # Run tasks with sudo (root) privileges if required
+      gather_facts: no  # Disable fact gathering for this task
+      register: router_info
+      ignore_errors: yes  # Ignore non-zero return codes
+
+      # Define commands to gather serial number and hardware information based on the router vendor.
+      # Use the variable {{ item }} to loop through the list of routers.
+
+      # Example for CISCO routers:
+      command: |
+        ssh {{ item }}  # Replace with the appropriate SSH command to connect to the router
+
+        # For CISCO routers:
+        show version | include Serial Number
+        show inventory
+
+        # For HUAWEI routers (example, adjust as needed):
+        # display version
+        # display device
+        # ...
+
+        # For HP routers (example, adjust as needed):
+        # show version
+        # show hardware
+        # ...
+      with_items: "{{ routers_A }}"  # Loop through the list of routers
+
+    - name: Display Serial Number and Hardware Info for each router
+      debug:
+        var: router_info.results
